@@ -1,5 +1,8 @@
 import React, {useContext, useEffect} from 'react'
 import { Store } from './store'
+import './App.css'
+
+
 
 export default function App(): JSX.Element{
   
@@ -8,7 +11,10 @@ export default function App(): JSX.Element{
   console.log(state)
 
   useEffect(() => {
-    fetchData()
+    if(state.episodes.length === 0){
+      fetchData()
+    } 
+    
   }, [])
 
   const fetchData = async ()=>{
@@ -21,9 +27,20 @@ export default function App(): JSX.Element{
   }
 
   return (
-    <div>
+    <div className="App">
       <h1>Rick and Morty</h1>
       <p>Pick your favourite episoides!!</p>
+      <section>
+        {state.episodes.map((item:any)=>{
+         return <div key={item.id} className="episode-container">
+           <img src={item.image.medium} alt={`Rick & Morty ${item.name}`}/>
+           <div>{item.name}</div>
+           <section>
+            Season:{item.season} Number:{item.number}
+           </section> 
+           </div>
+        })}
+      </section>
     </div>
   )
 }
